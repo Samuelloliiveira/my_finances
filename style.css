@@ -110,7 +110,7 @@ button:hover {
 header {
     background: #2D4A22;
 
-    padding: 2rem 0 10rem;
+    padding: 4rem 0 13rem;
     text-align: center;
 }
 
@@ -297,4 +297,5 @@ footer {
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
     }
+
 }
