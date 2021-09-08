@@ -23,7 +23,7 @@
     <main id="container">
 
         <section id="balance">
-            <h2 class="sr-onlyu">Balanço</h2>
+            <h2 class="sr-only">Balanço</h2>
 
             <div class="card">
                 <h3>
@@ -95,6 +95,37 @@
         </section>
 
     </main>
+
+    <div class="modal-overlay active">
+        <div class="modal">
+            <div id="form">
+                <h2>Nova Transação</h2>
+                <form action="">
+                    <div class="input-group">
+                        <label class="sr-only" for="description">Descrição</label>
+                        <input type="text" name="description" id="description" placeholder="Descrição">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="sr-only" for="amount">Valor</label>
+                        <input type="number" name="amount" id="amount" step="0.01" placeholder="0,00">
+
+                        <small>Use o sinal -(negativo) para despesas e ,(virgula) para casas decimais</small>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="sr-only" for="date">Data</label>
+                        <input type="date" name="date" id="date">
+                    </div>
+
+                    <div class="input-group actions">
+                        <a href="#" class="button cancel">Cancelar</a>
+                        <button>Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <p>dev.finance$</p>

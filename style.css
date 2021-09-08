@@ -1,5 +1,8 @@
 :root {
     --dark-blue: #363f5f;
+    --green: #49AA26;
+    --light-green: #3dd705;
+    --red: #e92929;
 }
 
 * {
@@ -19,7 +22,7 @@ body {
 }
 
 /* Tirando algo da tela sem afetar os leitores de tela */
-.sr-onlyu {
+.sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -49,17 +52,58 @@ h2 {
 /*======== links & buttons ========*/
 
 a {
-    color: #49AA26;
+    color: var(--green);
     text-decoration: none;
 }
 
 a:hover {
-    color: #3dd705;
+    color: var(--light-green);
 }
 
 .button.new {
     display: inline-block;
     margin-bottom: .8rem;
+}
+
+button {
+    width: 100%;
+    height: 50px;
+
+    color: white;
+    background: var(--green);
+
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background: var(--light-green);
+}
+
+.button.new {
+    display: inline-block;
+    margin-bottom: .8rem;
+}
+
+.button.cancel {
+    color: var(--red);
+    border: 2px solid var(--red);
+    border-radius: 0.25rem;
+
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0.6;
+}
+
+.button.cancel:hover {
+    opacity: 1;
 }
 
 /*======== header ========*/
@@ -112,18 +156,20 @@ header {
 }
 
 .card.total {
-    background: #49AA26;
+    background: var(--green);
     color: white;
 }
 
 /*======== table ========*/
-#data-table {
+#transaction {
     display: block;
+    overflow-x: auto;/* mobal- rolar um elemento que esta transbordando */
+}
+
+#data-table {
     width: 100%;
     border-spacing: 0 0.5rem;
     color: #969cb3;
-
-    overflow-x: auto;/* mobal- rolar um elemento que esta transbordando */
 }
 
 table thead tr th:first-child,
@@ -165,7 +211,71 @@ td.income {
 }
 
 td.expense {
-    color: #e92929;
+    color: var(--red);
+}
+
+/*======== modal ========*/
+.modal-overlay {
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.7);
+
+    position: fixed;
+    top: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: #F0F2F5;
+    padding: 2.4rem;
+}
+
+/*======== formulário ========*/
+#form {
+    max-width: 500px;
+}
+
+#form h2 {
+    margin-top: 0;
+}
+
+input {
+    border: none;
+    border-radius: 0.2rem;
+    padding: 0.8rem;
+
+    width: 100%;
+}
+
+.input-group {
+    margin-top: 0.8rem;
+}
+
+.input-group small {
+    opacity: 0.4;
+}
+
+.input-group.actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-group.actions .button,
+.input-group.actions button {
+    width: 48%;
 }
 
 /*======== rodapé ========*/
