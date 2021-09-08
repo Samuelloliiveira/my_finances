@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 93.75%;/* 100 x 15px = 1500/16 = 93.75 - regra de três*/
+}
+
 body {
     background: #f0f2f5;
     font-family: 'Poppins', sans-serif;
@@ -114,9 +118,12 @@ header {
 
 /*======== table ========*/
 #data-table {
+    display: block;
     width: 100%;
     border-spacing: 0 0.5rem;
     color: #969cb3;
+
+    overflow-x: auto;/* mobal- rolar um elemento que esta transbordando */
 }
 
 table thead tr th:first-child,
@@ -167,4 +174,17 @@ footer {
     padding: 4rem 0 2rem;
     color: var(--dark-blue);
     opacity: 0.6;
+}
+
+/*======== responsive ========*/
+@media (min-width: 800px) {
+    html {
+        font-size: 87.5%; /* igual a 14px - regra de três */
+    }
+
+    #balance {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
 }
