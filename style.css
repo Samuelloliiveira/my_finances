@@ -3,6 +3,7 @@
     --green: #49AA26;
     --light-green: #3dd705;
     --red: #e92929;
+    --dark-green: #2D4A22;
 }
 
 * {
@@ -108,9 +109,9 @@ button:hover {
 
 /*======== header ========*/
 header {
-    background: #2D4A22;
+    background: var(--dark-green);
 
-    padding: 4rem 0 13rem;
+    padding: 4rem 0 16rem;
     text-align: center;
 }
 
@@ -158,6 +159,14 @@ header {
 .card.total {
     background: var(--green);
     color: white;
+}
+
+.card.income {
+    color: var(--dark-green);
+}
+
+.card.expense {
+    color: var(--red);
 }
 
 /*======== table ========*/
@@ -212,6 +221,11 @@ td.income {
 
 td.expense {
     color: var(--red);
+}
+
+.editcircle {
+    width: 2.2rem;
+    height: 2.2rem;
 }
 
 /*======== modal ========*/

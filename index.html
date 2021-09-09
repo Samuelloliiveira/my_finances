@@ -10,14 +10,14 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap"
         rel="stylesheet">
-    <title>dev.finance$</title>
+    <title>My.finance$</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" hidden></script>
 </head>
 
 <body>
     <header>
-        <img src="./assets/logo.svg" alt="Logo Dev Finance">
+        <img src="./assets/logo.png" alt="Logo Dev Finance">
     </header>
 
     <main id="container">
@@ -25,7 +25,7 @@
         <section id="balance">
             <h2 class="sr-only">Balanço</h2>
 
-            <div class="card">
+            <div class="card income">
                 <h3>
                     <span>Entradas</span>
                     <img src="./assets/income.svg" alt="imagem de entradas">
@@ -33,12 +33,12 @@
                 <p>R$ 5.000,00</p>
             </div>
 
-            <div class="card">
+            <div class="card expense">
                 <h3>
                     <span>Saídas</span>
                     <img src="./assets/expense.svg" alt="imagem de saídas">
                 </h3>
-                <p>R$ 2.000,00</p>
+                <p>R$ -2.000,00</p>
             </div>
 
             <div class="card total">
@@ -62,7 +62,8 @@
                         <th>Descrição</th>
                         <th>Valor</th>
                         <th>Data</th>
-                        <th></th>
+                        <th>Apagar</th>
+                        <th>Editar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,13 +74,19 @@
                         <td>
                             <img src="./assets/minus.svg" alt="Remover transação">
                         </td>
+                        <td>
+                            <img onclick="modal.open()" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
+                        </td>
                     </tr>
                     <tr>
                         <td class="description">Criação website</td>
-                        <td class="income">- R$ 5.000,00</td>
+                        <td class="income">R$ 5.000,00</td>
                         <td class="date">23/01/2021</td>
                         <td>
                             <img src="./assets/minus.svg" alt="Remover transação">
+                        </td>
+                        <td>
+                            <img onclick="modal.open()" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
                         </td>
                     </tr>
                     <tr>
@@ -88,6 +95,9 @@
                         <td class="date">23/01/2021</td>
                         <td>
                             <img src="./assets/minus.svg" alt="Remover transação">
+                        </td>
+                        <td>
+                            <img onclick="modal.open()" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
                         </td>
                     </tr>
                 </tbody>
@@ -128,7 +138,7 @@
     </div>
 
     <footer>
-        <p>dev.finance$</p>
+        <p>my.finance$</p>
     </footer>
 
 </body>

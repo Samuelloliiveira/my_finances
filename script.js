@@ -1,11 +1,11 @@
 const modal = {
     open() {
-        const openModal = document.querySelector('.modal-overlay')
-        openModal.classList.add('active')
+        const activeModal = document.querySelector('.modal-overlay')
+        activeModal.classList.add('active')
     },
 
     close() {
-        const closeModal = document.querySelector('.modal-overlay')
-        closeModal.classList.remove('active')
+        const removeModal = document.querySelector('.modal-overlay')
+        removeModal.classList.remove('active')
     }
 }
