@@ -195,7 +195,7 @@ table thead th {
     background: white;
     font-weight: normal;
     padding: 1rem 2rem;
-    text-align: left;
+    text-align: center;
 }
 
 table tbody tr {
@@ -209,6 +209,11 @@ table tbody tr:hover {
 table tbody td {
     background: white;
     padding: 1rem 2rem;
+    text-align: center;
+}
+
+table tbody td img {
+    cursor: pointer;
 }
 
 td.description {
@@ -285,6 +290,10 @@ input {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.input-group.alert {
+    color:  var(--red);
 }
 
 .input-group.actions .button,

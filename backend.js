@@ -1,30 +1,51 @@
-//os valores do input guardados em array
-const transactions = [
-    {
-        id: 1,
-        description: 'Luz',
-        amount: -50000,
-        date: '23/01/2021'
-    },
-    {
-        id: 2,
-        description: 'website',
-        amount: 500000,
-        date: '23/01/2021'
-    },
-    {
-        id: 3,
-        description: 'Internet',
-        amount: -20000,
-        date: '23/01/2021'
-    },
-]
+const modal = { //objeto modal
+    openCloseModal() {//metodo 
+        const activeModal = document.querySelector('.modal-overlay')
+        activeModal.classList.toggle('active')
 
-const CalculateTransactions = {
+        const Alert = document.querySelector('.input-group.alert')
+        // Alert.remove('p')
+
+    }
+}
+
+const Transaction = {
+
+    all: [
+        {
+            description: 'Luz',
+            amount: -500,
+            date: '23/01/2021'
+        },
+        {
+            description: 'website',
+            amount: 50000,
+            date: '23/01/2021'
+        },
+        {
+            description: 'Internet',
+            amount: -20000,
+            date: '23/01/2021'
+        },
+    ],
+
+    add(transaction) {
+        Transaction.all.push(transaction)
+
+        App.reload()
+    },
+
+    remove(index) {
+        Transaction.all.splice(index, 1)
+
+        App.reload()
+    },
+
+    //Calculo das trasações
     incomes() {
         let income = 0;
         
-        transactions.forEach(transaction => {
+        Transaction.all.forEach(transaction => {
             if(transaction.amount > 0) {
                 income += transaction.amount
             }
@@ -36,7 +57,7 @@ const CalculateTransactions = {
     expenses() {
         let expense = 0;
 
-        transactions.forEach(transaction => {
+        Transaction.all.forEach(transaction => {
             if(transaction.amount < 0) {
                 expense += transaction.amount
             }            
@@ -46,7 +67,7 @@ const CalculateTransactions = {
     },
 
     total() {
-        return CalculateTransactions.incomes() + CalculateTransactions.expenses()
+        return Transaction.incomes() + Transaction.expenses()
     }
 }
 
@@ -89,14 +110,18 @@ const DOM = {
     updateBalance() {
         document
             .getElementById('incomeDisplay')
-            .innerHTML = Utils.formatCurrency(CalculateTransactions.incomes())
+            .innerHTML = Utils.formatCurrency(Transaction.incomes())
         document
             .getElementById('expenseDisplay')
-            .innerHTML = Utils.formatCurrency(CalculateTransactions.expenses())
+            .innerHTML = Utils.formatCurrency(Transaction.expenses())
         document
             .getElementById('totalDisplay')
-            .innerHTML = Utils.formatCurrency(CalculateTransactions.total())
+            .innerHTML = Utils.formatCurrency(Transaction.total())
 
+    },
+
+    clearTransactions() {
+        DOM.transactionsContainer.innerHTML = ""
     }
 }
 
@@ -119,9 +144,87 @@ const Utils = {
     }
 }
 
-//Pegando todas as transações
-transactions.forEach(function(transaction) {
-    DOM.addTransaction(transaction)
-})
+const Form = {
 
-DOM.updateBalance()
+    description: document.querySelector('input#description'),
+    amount: document.querySelector('input#amount'),
+    date: document.querySelector('input#date'),
+
+    getValues() {
+        return {
+            description: Form.description.value,
+            amount: Form.amount.value,
+            date: Form.date.value
+        }
+    },
+
+    validateFields() {
+        const {description, amount, date} = Form.getValues()//Desestruturando os valores
+    
+        if(
+            description.trim() === '' || 
+            amount.trim() === '' ||
+            date.trim() === '') {
+            throw new Error('Preencha todos os campos')
+        }
+
+    },
+
+    formatDate() {
+        
+    },
+
+    submit(event) {
+        event.preventDefault()
+
+        try {
+            Form.validateFields()
+        } catch (error) {
+            //Pegando elemento pai
+            const inputGroupAlert = document.querySelector('.input-group.alert')
+
+            //criando um elemento p filho
+            const p = document.createElement('p')
+            p.innerHTML = error.message //passando erro
+
+            inputGroupAlert.appendChild(p)//colocando p dentro do elemento pai
+
+            console.log('Verificar se existe p e remover');
+        }
+    }
+}
+
+const Modal = {
+    removeAlert() {
+        const Alert = document.querySelector('.input-group.alert')
+        Alert.remove('p')
+    },
+}
+
+const App = {
+    init() {
+        //Pegando todas as transações
+        Transaction.all.forEach(transaction => {
+            DOM.addTransaction(transaction)
+        })
+
+        DOM.updateBalance()    
+    },
+
+    reload() {
+
+        DOM.clearTransactions()
+
+        App.init()
+    }
+}
+
+App.init()
+
+// Transaction.add({
+//     description: 'A',
+//     amount: 464,
+//     date: '12/04/2021'
+// })
+
+// Transaction.remove(0)
