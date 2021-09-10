@@ -3,10 +3,19 @@ const modal = { //objeto modal
         const activeModal = document.querySelector('.modal-overlay')
         activeModal.classList.toggle('active')
 
-        const Alert = document.querySelector('.input-group.alert')
-        // Alert.remove('p')
+        modal.removeAlert()
+    },
 
-    }
+    removeAlert() {
+
+        const alert = document.querySelector('.input-group.alert')
+        
+        /*para cara elemento error que tiver dentro de alert
+        ele vai remover*/
+        for (error of alert.children){
+            error.remove();
+        }   
+    },
 }
 
 const Transaction = {
@@ -183,22 +192,23 @@ const Form = {
             //Pegando elemento pai
             const inputGroupAlert = document.querySelector('.input-group.alert')
 
-            //criando um elemento p filho
-            const p = document.createElement('p')
-            p.innerHTML = error.message //passando erro
+            //se tiver algum filho dentro da div ele não executa
+            if(!inputGroupAlert.firstChild) {
 
-            inputGroupAlert.appendChild(p)//colocando p dentro do elemento pai
+                //criando um elemento p filho
+                const p = document.createElement('p')
+                p.innerHTML = error.message //passando erro
 
-            console.log('Verificar se existe p e remover');
+                inputGroupAlert.appendChild(p)//colocando p dentro do elemento pai
+            }
+
+
+            //Chama a função de remover alerta depois de um tempo
+            setTimeout(function() {
+                modal.removeAlert()
+            },2000)
         }
     }
-}
-
-const Modal = {
-    removeAlert() {
-        const Alert = document.querySelector('.input-group.alert')
-        Alert.remove('p')
-    },
 }
 
 const App = {
