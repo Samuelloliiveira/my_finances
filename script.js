@@ -1,9 +1,7 @@
-const modal = { //objeto modal
+const Modal = { //objeto modal
     openCloseModal() {//metodo 
         const activeModal = document.querySelector('.modal-overlay')
         activeModal.classList.toggle('active')
-
-        modal.removeAlert()
     },
 
     removeAlert() {
@@ -18,25 +16,23 @@ const modal = { //objeto modal
     },
 }
 
+const Storage = {
+    get() {
+        //string para array ou objeto
+        //retorna os valores ou um array vazio
+        return JSON.parse(localStorage.getItem("my.finances:transactions")) || []
+    },
+
+    //Setando todas as transações para localstorage como string
+    set(transactions) {
+        localStorage.setItem("my.finances:transactions",
+        JSON.stringify(transactions))
+    }
+}
+
 const Transaction = {
 
-    all: [
-        {
-            description: 'Luz',
-            amount: -500,
-            date: '23/01/2021'
-        },
-        {
-            description: 'website',
-            amount: 50000,
-            date: '23/01/2021'
-        },
-        {
-            description: 'Internet',
-            amount: -20000,
-            date: '23/01/2021'
-        },
-    ],
+    all: Storage.get(),
 
     add(transaction) {
         Transaction.all.push(transaction)
@@ -88,13 +84,14 @@ const DOM = {
 
     addTransaction(transaction, index) {
         const tr = document.createElement('tr')
-        tr.innerHTML = DOM.innerHTMLTransaction(transaction) 
+        tr.innerHTML = DOM.innerHTMLTransaction(transaction, index) 
+        tr.dataset.index = index
 
         DOM.transactionsContainer.appendChild(tr)
     },
 
     //modelo html
-    innerHTMLTransaction(transaction) {
+    innerHTMLTransaction(transaction, index) {
 
         const CSSclasses = transaction.amount > 0 ? "income" : "expense" //if ternario
 
@@ -105,10 +102,10 @@ const DOM = {
             <td class="${CSSclasses}">${amount}</td>
             <td class="date">${transaction.date}</td>
             <td>
-                <img src="./assets/minus.svg" alt="Remover transação">
+                <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
             </td>
             <td>
-                <img onclick="modal.openCloseModal()" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
+                <img onclick="EditValues" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
             </td>
         `
 
@@ -136,6 +133,22 @@ const DOM = {
 
 //formatando o valor(amount)
 const Utils = {
+
+    formatAmount(value) {
+
+        value = Number(value) * 100
+        
+        return value
+
+    },
+
+    formatDate(date) {
+        const splittedDate = date.split('-')
+
+        //template literals
+        return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+    },
+
     formatCurrency(value) {
         const signal = Number(value) < 0 ? "-" : ""
         
@@ -179,15 +192,38 @@ const Form = {
 
     },
 
-    formatDate() {
-        
+    formatValues() {
+        let {description, amount, date} = Form.getValues()//Desestruturando os valores
+
+        amount = Utils.formatAmount(amount)
+
+        date = Utils.formatDate(date)
+
+
+        return {
+            description,
+            amount,
+            date,
+        }
     },
 
-    submit(event) {
-        event.preventDefault()
+    clearFields() {
+        Form.description.value = ""
+        Form.amount.value = ""
+        Form.date.value = ""
+    },
+
+    submit(event) {//evento de submeter o formulário
+        event.preventDefault()//não passa valores pela url(http)
 
         try {
+
             Form.validateFields()
+            const transaction = Form.formatValues()
+            Transaction.add(transaction)//salvar a transação
+            Form.clearFields()
+            Modal.openCloseModal()
+
         } catch (error) {
             //Pegando elemento pai
             const inputGroupAlert = document.querySelector('.input-group.alert')
@@ -205,20 +241,28 @@ const Form = {
 
             //Chama a função de remover alerta depois de um tempo
             setTimeout(function() {
-                modal.removeAlert()
-            },2000)
+                Modal.removeAlert()
+            },1100)
         }
     }
+}
+
+//  AQUI EU VOU EDITAR OS DADOS
+const EditValues = {
+    //CLASSE LÁ NA IMG ONCLICK
+    //Buscar dados e abrir o modal com os mesmos
+    //Verificar se não esta vazio
+    //Salvar novas informações subscrevendo as antigas
 }
 
 const App = {
     init() {
         //Pegando todas as transações
-        Transaction.all.forEach(transaction => {
-            DOM.addTransaction(transaction)
-        })
+        Transaction.all.forEach(DOM.addTransaction)//passando addTransaction como um atalho
 
-        DOM.updateBalance()    
+        DOM.updateBalance()
+        
+        Storage.set(Transaction.all)
     },
 
     reload() {
@@ -231,10 +275,4 @@ const App = {
 
 App.init()
 
-// Transaction.add({
-//     description: 'A',
-//     amount: 464,
-//     date: '12/04/2021'
-// })
-
-// Transaction.remove(0)
+//OS DADOS DESSA APLICAÇÃO ESTÁO SALVOS EM LOCAL STORAGE

@@ -111,7 +111,7 @@ button:hover {
 header {
     background: var(--dark-green);
 
-    padding: 4rem 0 16rem;
+    padding: 4rem 0 14rem;
     text-align: center;
 }
 
@@ -294,6 +294,7 @@ input {
 
 .input-group.alert {
     color:  var(--red);
+    text-align: center;
 }
 
 .input-group.actions .button,
@@ -307,6 +308,8 @@ footer {
     padding: 4rem 0 2rem;
     color: var(--dark-blue);
     opacity: 0.6;
+    position: relative;
+    z-index: -1;
 }
 
 /*======== responsive ========*/
