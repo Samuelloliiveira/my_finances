@@ -7,12 +7,12 @@ const Modal = { //objeto modal
     removeAlert() {
 
         const alert = document.querySelector('.input-group.alert')
-        
+
         /*para cara elemento error que tiver dentro de alert
         ele vai remover*/
-        for (error of alert.children){
+        for (error of alert.children) {
             error.remove();
-        }   
+        }
     },
 }
 
@@ -26,7 +26,7 @@ const Storage = {
     //Setando todas as transações para localstorage como string
     set(transactions) {
         localStorage.setItem("my.finances:transactions",
-        JSON.stringify(transactions))
+            JSON.stringify(transactions))
     }
 }
 
@@ -49,9 +49,9 @@ const Transaction = {
     //Calculo das trasações
     incomes() {
         let income = 0;
-        
+
         Transaction.all.forEach(transaction => {
-            if(transaction.amount > 0) {
+            if (transaction.amount > 0) {
                 income += transaction.amount
             }
         })
@@ -63,9 +63,9 @@ const Transaction = {
         let expense = 0;
 
         Transaction.all.forEach(transaction => {
-            if(transaction.amount < 0) {
+            if (transaction.amount < 0) {
                 expense += transaction.amount
-            }            
+            }
         })
 
         return expense
@@ -84,7 +84,7 @@ const DOM = {
 
     addTransaction(transaction, index) {
         const tr = document.createElement('tr')
-        tr.innerHTML = DOM.innerHTMLTransaction(transaction, index) 
+        tr.innerHTML = DOM.innerHTMLTransaction(transaction, index)
         tr.dataset.index = index
 
         DOM.transactionsContainer.appendChild(tr)
@@ -105,7 +105,7 @@ const DOM = {
                 <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
             </td>
             <td>
-                <img onclick="EditValues" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
+                <img onclick="EditValues.ModalEditValue()" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
             </td>
         `
 
@@ -136,9 +136,8 @@ const Utils = {
 
     formatAmount(value) {
 
-        value = Number(value.replace(/\,\./g, "")) * 100
-        
-        return value
+        value = value * 100
+        return Math.round(value)
 
     },
 
@@ -151,7 +150,7 @@ const Utils = {
 
     formatCurrency(value) {
         const signal = Number(value) < 0 ? "-" : ""
-        
+
         //na expressão regular abaixo ele pega tudo que não é número e troca por alguma coisa
         value = String(value).replace(/\D/g, "")
 
@@ -181,10 +180,10 @@ const Form = {
     },
 
     validateFields() {
-        const {description, amount, date} = Form.getValues()//Desestruturando os valores
-    
-        if(
-            description.trim() === '' || 
+        const { description, amount, date } = Form.getValues()//Desestruturando os valores
+
+        if (
+            description.trim() === '' ||
             amount.trim() === '' ||
             date.trim() === '') {
             throw new Error('Preencha todos os campos')
@@ -193,7 +192,7 @@ const Form = {
     },
 
     formatValues() {
-        let {description, amount, date} = Form.getValues()//Desestruturando os valores
+        let { description, amount, date } = Form.getValues()//Desestruturando os valores
 
         amount = Utils.formatAmount(amount)
 
@@ -229,7 +228,7 @@ const Form = {
             const inputGroupAlert = document.querySelector('.input-group.alert')
 
             //se tiver algum filho dentro da div ele não executa
-            if(!inputGroupAlert.firstChild) {
+            if (!inputGroupAlert.firstChild) {
 
                 //criando um elemento p filho
                 const p = document.createElement('p')
@@ -240,19 +239,82 @@ const Form = {
 
 
             //Chama a função de remover alerta depois de um tempo
-            setTimeout(function() {
+            setTimeout(function () {
                 Modal.removeAlert()
-            },1100)
+            }, 1100)
         }
     }
 }
 
 //  AQUI EU VOU EDITAR OS DADOS
 const EditValues = {
-    //CLASSE LÁ NA IMG ONCLICK
-    //Buscar dados e abrir o modal com os mesmos
-    //Verificar se não esta vazio
-    //Salvar novas informações subscrevendo as antigas
+
+    //Salvar novamente substituindo o que estava antes no local storage
+    reversingDateFormatting(value) {
+        //Desfazer a formatação de data
+        const previousDate = EditValues.innerHTMLModal(value)
+        console.log(previousDate);
+
+        //RECEBER AQUI A DATA E INVERTER A ORDEM
+    },
+
+    SaveNewValues() {
+
+    },
+
+    ModalEditValue(value) {
+        //colocando novos valores dentro do Modal
+        const addNewModal = document.querySelector('#addNewModal')
+        addNewModal.innerHTML = EditValues.innerHTMLModal(value)
+
+        console.log(addNewModal); //VER NO CONSOLE
+
+        Modal.openCloseModal()
+    },
+
+    getValueStorage(index = 1) {
+
+            //pegando os dados do local storage
+            const storedData = Storage.get()
+
+            //desestruturação do array pegando pegando o index do array
+            const { description, amount, date } = storedData[index]
+
+            //PRESISO PASSAR ISSO PARA INNER HTMLMODAL
+            
+    },
+
+    innerHTMLModal(description, amount, date) {
+
+        const htmlModal = `
+            <div class="input-group alert"></div>
+
+            <div class="input-group">
+                <label class="sr-only" for="description">Descrição</label>
+                <input type="text" name="description" id="description" placeholder="Descrição" value="${description}">
+            </div>
+
+            <div class="input-group">
+                <label class="sr-only" for="amount">Valor</label>
+                <input type="number" name="amount" id="amount" step="0.01" placeholder="0,00" value="${amount}">
+
+                <small>Use o sinal -(negativo) para despesas e ,(virgula) para casas decimais</small>
+            </div>
+
+            <div class="input-group">
+                <label class="sr-only" for="date">Data</label>
+                <input type="date" name="date" id="date" value="${date}">
+            </div>
+
+            <div class="input-group actions">
+                <a onclick="Modal.openCloseModal()" href="#" class="button cancel">Cancelar</a>
+                <button>Salvar</button>
+            </div>
+        `
+
+        return htmlModal
+    }
+
 }
 
 const App = {
@@ -261,7 +323,7 @@ const App = {
         Transaction.all.forEach(DOM.addTransaction)//passando addTransaction como um atalho
 
         DOM.updateBalance()
-        
+
         Storage.set(Transaction.all)
     },
 
@@ -275,4 +337,4 @@ const App = {
 
 App.init()
 
-//OS DADOS DESSA APLICAÇÃO ESTÁO SALVOS EM LOCAL STORAGE
+//OS DADOS DESSA APLICAÇÃO ESTÁO SALVOS EM LOCAL STORAGE                
