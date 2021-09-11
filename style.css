@@ -234,7 +234,7 @@ td.expense {
 }
 
 /*======== modal ========*/
-.modal-overlay {
+.modal-overlay, .ModalEdit {
     width: 100%;
     height: 100%;
 
@@ -251,7 +251,7 @@ td.expense {
     visibility: hidden;
 }
 
-.modal-overlay.active {
+.modal-overlay.active, .ModalEdit.active {
     opacity: 1;
     visibility: visible;
 }

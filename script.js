@@ -249,17 +249,20 @@ const Form = {
 //  AQUI EU VOU EDITAR OS DADOS
 const EditValues = {
 
-    //Salvar novamente substituindo o que estava antes no local storage
-    reversingDateFormatting(value) {
-        //Desfazer a formatação de data
-        const previousDate = EditValues.innerHTMLModal(value)
-        console.log(previousDate);
+    reversingDateFormatting() {  
 
-        //RECEBER AQUI A DATA E INVERTER A ORDEM
+        //Desfazer a formatação de data
+        const previousDate = EditValues.getValueStorage()[2].split('/')
+
+        return `${previousDate[2]}-${previousDate[1]}-${previousDate[0]}`
     },
 
     SaveNewValues() {
-
+        //Salvar as informações que estão no formulário
+        //Corrigir erro que mostra que esta vázio
+        //Substituir as informações do Storate usando SET()
+        //Pegar o index da trasação que deseja editar
+        //Mostar na tela novas informações
     },
 
     ModalEditValue(value) {
@@ -267,43 +270,32 @@ const EditValues = {
         const addNewModal = document.querySelector('#addNewModal')
         addNewModal.innerHTML = EditValues.innerHTMLModal(value)
 
-        console.log(addNewModal); //VER NO CONSOLE
+        EditValues.reversingDateFormatting()
 
         Modal.openCloseModal()
+
     },
 
-    getValueStorage(index = 1) {
-
-            //pegando os dados do local storage
-            const storedData = Storage.get()
-
-            //desestruturação do array pegando pegando o index do array
-            const { description, amount, date } = storedData[index]
-
-            //PRESISO PASSAR ISSO PARA INNER HTMLMODAL
-            
-    },
-
-    innerHTMLModal(description, amount, date) {
+    innerHTMLModal() {
 
         const htmlModal = `
             <div class="input-group alert"></div>
 
             <div class="input-group">
                 <label class="sr-only" for="description">Descrição</label>
-                <input type="text" name="description" id="description" placeholder="Descrição" value="${description}">
+                <input type="text" name="description" id="description" placeholder="Descrição" value="${EditValues.getValueStorage()[0]}">
             </div>
 
             <div class="input-group">
                 <label class="sr-only" for="amount">Valor</label>
-                <input type="number" name="amount" id="amount" step="0.01" placeholder="0,00" value="${amount}">
+                <input type="number" name="amount" id="amount" step="0.01" placeholder="0,00" value="${EditValues.getValueStorage()[1]}">
 
                 <small>Use o sinal -(negativo) para despesas e ,(virgula) para casas decimais</small>
             </div>
 
             <div class="input-group">
                 <label class="sr-only" for="date">Data</label>
-                <input type="date" name="date" id="date" value="${date}">
+                <input type="date" name="date" id="date" value="${EditValues.reversingDateFormatting()}">
             </div>
 
             <div class="input-group actions">
@@ -313,8 +305,21 @@ const EditValues = {
         `
 
         return htmlModal
-    }
+    },
 
+    getValueStorage(index = 0) { //PASSAR O INDECE PARA PEGAR DE STORAGE.GET
+
+        //pegando os dados do local storage
+        const storedData = Storage.get()
+
+        //desestruturação do array pegando pegando o index do array
+        const { description, amount, date } = storedData[index]
+
+        const ArrayValue = [description, amount, date] //criando array com as informações
+
+        return ArrayValue
+            
+    },
 }
 
 const App = {
