@@ -19,6 +19,11 @@ const Modal = { //objeto modal
         for (error of alert.children) {
             error.remove();
         }
+
+        const alertEdit = document.querySelector('.EditGaveError')
+        for (errorEdit of alertEdit.children) {
+            errorEdit.remove();
+        }
     },
 }
 
@@ -112,7 +117,8 @@ const DOM = {
                 <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
             </td>
             <td>
-                <img onclick="EditValues.getValueStorage(${index})" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
+                <img onclick="EditValues.getValueStorage(${index})" 
+                class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
             </td>
         `
         return html
@@ -268,33 +274,76 @@ const EditValues = {
         const addNewModal = document.querySelector('#addNewModal')
         addNewModal.innerHTML = `
 
-            <div class="input-group alert"></div>
+            <div class="EditGaveError"></div>
 
             <div class="input-group">
                 <label class="sr-only" for="description">Descrição</label>
-                <input type="text" name="description" id="description" placeholder="Descrição" value="${description}">
+                <input type="text" name="description" id="descriptionEdit" placeholder="Descrição" value="${description}">
             </div>
 
             <div class="input-group">
                 <label class="sr-only" for="amount">Valor</label>
-                <input type="number" name="amount" id="amount" step="0.01" placeholder="0,00" value="${amount}">
+                <input type="number" name="amount" id="amountEdit" step="0.01" placeholder="0,00" value="${amount}">
 
                 <small>Use o sinal -(negativo) para despesas e ,(virgula) para casas decimais</small>
             </div>
 
             <div class="input-group">
                 <label class="sr-only" for="date">Data</label>
-                <input type="date" name="date" id="date" value="${date}">
+                <input type="date" name="date" id="dateEdit" value="${date}">
             </div>
 
             <div class="input-group actions">
                 <a onclick="Modal.openCloseModalEdition()" href="#" class="button cancel">Cancelar</a>
-                <button onclick="EditValues.saveNewValues()">Salvar</button>
+                <button onclick="EditValues.checkRegistration()">Salvar</button>
             </div>
         `
 
         Modal.openCloseModalEdition()
 
+    },
+
+    checkRegistration() {
+
+        const descriptionEdit = document.querySelector('input#descriptionEdit').value
+        const amountEdit = document.querySelector('input#amountEdit').value
+        const dateEdit = document.querySelector('input#dateEdit').value
+
+        //verificando se os campos estão vazios
+        if (
+            descriptionEdit.trim() === '' ||
+            amountEdit.trim() === '' ||
+            dateEdit.trim() === '') {
+                const inputGroupAlert = document.querySelector('.EditGaveError')
+
+                if (!inputGroupAlert.firstChild) {
+
+                    const p = document.createElement('p')
+                    p.innerHTML = "Preencha todos os campos"
+
+                    inputGroupAlert.appendChild(p)
+
+                    setTimeout(function () {
+                        Modal.removeAlert()
+                    }, 1100)
+                }
+
+        }else {
+            EditValues.UpdateLocalStorage()
+        }
+
+        Modal.openCloseModalEdition()
+    },
+
+    UpdateLocalStorage(index) {
+
+        console.log(index);
+
+        //O INDEX FICA UNDEFINED QUANDO APERTA VARIAS VEZES PARA SALVAR, 
+
+        //JÁ PEGUEI O INDEX QUE DESEJA SER ALTERADO, AGORA PABASTA ALTERAR AS INFORMAÇÕES NO LOCAL STORAGE
+
+        App.reload()        
     },
 
     getValueStorage(index) { //passando o index como o número do array que deseja pegar do storage
@@ -309,16 +358,8 @@ const EditValues = {
 
         EditValues.innerHTMLEdition(description, amount, date)
 
-    },
+        EditValues.UpdateLocalStorage(index)
 
-    saveNewValues() {
-        console.log('cheguei aqui');
-
-        //Verificar se os campos estão preenchidos
-
-        //buscar o local no localStorage que deseja salvar através do array
-        //Substituir os dados do
-        //Atualizar tabela
     },
 
 }

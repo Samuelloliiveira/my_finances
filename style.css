@@ -292,7 +292,7 @@ input {
     align-items: center;
 }
 
-.input-group.alert {
+.input-group.alert, .EditGaveError {
     color:  var(--red);
     text-align: center;
 }
