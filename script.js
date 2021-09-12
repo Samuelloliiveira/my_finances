@@ -4,6 +4,12 @@ const Modal = { //objeto modal
         activeModal.classList.toggle('active')
     },
 
+
+    openCloseModalEdition() {
+        const activeModal = document.querySelector('.modal-edition')
+        activeModal.classList.toggle('active')
+    },
+
     removeAlert() {
 
         const alert = document.querySelector('.input-group.alert')
@@ -249,81 +255,72 @@ const Form = {
 //  AQUI EU VOU EDITAR OS DADOS
 const EditValues = {
 
-    reversingDateFormatting() {  
+    reversingDateFormatting(date) {  
 
         //Desfazer a formatação de data
-        const previousDate = EditValues.getValueStorage()[2].split('/')
+        const previousDate = date.split('/')
 
         return `${previousDate[2]}-${previousDate[1]}-${previousDate[0]}`
     },
 
-    SaveNewValues() {
-        //Salvar as informações que estão no formulário
-        //Corrigir erro que mostra que esta vázio
-        //Substituir as informações do Storate usando SET()
-        //Pegar o index da trasação que deseja editar
-        //Mostar na tela novas informações
-    },
-
-    ModalEditValue(value) {
+    innerHTMLEdition(description, amount, date) {
         //colocando novos valores dentro do Modal
         const addNewModal = document.querySelector('#addNewModal')
-        addNewModal.innerHTML = EditValues.innerHTMLModal(value)
+        addNewModal.innerHTML = `
 
-        console.log(addNewModal);
-
-        EditValues.reversingDateFormatting()
-
-        Modal.openCloseModal()
-
-    },
-
-    innerHTMLModal() {
-
-        const htmlModal = `
             <div class="input-group alert"></div>
 
             <div class="input-group">
                 <label class="sr-only" for="description">Descrição</label>
-                <input type="text" name="description" id="description" placeholder="Descrição" value="${EditValues.getValueStorage()[0]}">
+                <input type="text" name="description" id="description" placeholder="Descrição" value="${description}">
             </div>
 
             <div class="input-group">
                 <label class="sr-only" for="amount">Valor</label>
-                <input type="number" name="amount" id="amount" step="0.01" placeholder="0,00" value="${EditValues.getValueStorage()[1]}">
+                <input type="number" name="amount" id="amount" step="0.01" placeholder="0,00" value="${amount}">
 
                 <small>Use o sinal -(negativo) para despesas e ,(virgula) para casas decimais</small>
             </div>
 
             <div class="input-group">
                 <label class="sr-only" for="date">Data</label>
-                <input type="date" name="date" id="date" value="${EditValues.reversingDateFormatting()}">
+                <input type="date" name="date" id="date" value="${date}">
             </div>
 
             <div class="input-group actions">
-                <a onclick="Modal.openCloseModal()" href="#" class="button cancel">Cancelar</a>
-                <button>Salvar</button>
+                <a onclick="Modal.openCloseModalEdition()" href="#" class="button cancel">Cancelar</a>
+                <button onclick="EditValues.saveNewValues()">Salvar</button>
             </div>
         `
 
-        return htmlModal
+        Modal.openCloseModalEdition()
+
     },
 
-    getValueStorage(index) {
+    getValueStorage(index) { //passando o index como o número do array que deseja pegar do storage
 
         //pegando os dados do local storage
         const storedData = Storage.get()[index]
 
-        //desestruturação do array pegando pegando o index do array
-        const { description, amount, date } = storedData
+        //pegando os dados do objeto
+        const description = storedData.description
+        const amount = storedData.amount
+        const date = EditValues.reversingDateFormatting(storedData.date)
 
-        const ArrayValue = [description, amount, date] //criando array com as informações
+        EditValues.innerHTMLEdition(description, amount, date)
 
-        console.log(ArrayValue);
-
-        return ArrayValue
-            
     },
+
+    saveNewValues() {
+        console.log('cheguei aqui');
+
+        //Verificar se os campos estão preenchidos
+
+        //buscar o local no localStorage que deseja salvar através do array
+        //Substituir os dados do
+        //Atualizar tabela
+    },
+
 }
 
 const App = {
@@ -346,4 +343,7 @@ const App = {
 
 App.init()
 
-//OS DADOS DESSA APLICAÇÃO ESTÁO SALVOS EM LOCAL STORAGE                
+//OS DADOS DESSA APLICAÇÃO ESTÁO SALVOS EM LOCAL STORAGE
+
+
+        //VAI PRECISAR FORMATAR AMOUNT NO RETORNO PORQUE ESTÁ DANDO O VALOR ERRADO
