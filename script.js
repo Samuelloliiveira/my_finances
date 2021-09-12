@@ -331,19 +331,15 @@ const EditValues = {
         }else {
             EditValues.UpdateLocalStorage()
         }
-
-        Modal.openCloseModalEdition()
     },
 
     UpdateLocalStorage(index) {
 
         console.log(index);
 
-        //O INDEX FICA UNDEFINED QUANDO APERTA VARIAS VEZES PARA SALVAR, 
-
-        //JÁ PEGUEI O INDEX QUE DESEJA SER ALTERADO, AGORA PABASTA ALTERAR AS INFORMAÇÕES NO LOCAL STORAGE
-
-        App.reload()        
+        //buscar o local no localStorage que deseja salvar através do array
+        //Substituir os dados do
+        //Atualizar tabela
     },
 
     getValueStorage(index) { //passando o index como o número do array que deseja pegar do storage
