@@ -88,10 +88,11 @@ const DOM = {
         tr.dataset.index = index
 
         DOM.transactionsContainer.appendChild(tr)
+
     },
 
     //modelo html
-    innerHTMLTransaction(transaction, index) {
+    innerHTMLTransaction(transaction, index ) {
 
         const CSSclasses = transaction.amount > 0 ? "income" : "expense" //if ternario
 
@@ -105,10 +106,9 @@ const DOM = {
                 <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
             </td>
             <td>
-                <img onclick="EditValues.ModalEditValue()" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
+                <img onclick="EditValues.getValueStorage(${index})" class="editcircle" src="./assets/editcircle_120035.svg" alt="editar transação">
             </td>
         `
-
         return html
     },
 
@@ -270,6 +270,8 @@ const EditValues = {
         const addNewModal = document.querySelector('#addNewModal')
         addNewModal.innerHTML = EditValues.innerHTMLModal(value)
 
+        console.log(addNewModal);
+
         EditValues.reversingDateFormatting()
 
         Modal.openCloseModal()
@@ -307,15 +309,17 @@ const EditValues = {
         return htmlModal
     },
 
-    getValueStorage(index = 0) { //PASSAR O INDECE PARA PEGAR DE STORAGE.GET
+    getValueStorage(index) {
 
         //pegando os dados do local storage
-        const storedData = Storage.get()
+        const storedData = Storage.get()[index]
 
         //desestruturação do array pegando pegando o index do array
-        const { description, amount, date } = storedData[index]
+        const { description, amount, date } = storedData
 
         const ArrayValue = [description, amount, date] //criando array com as informações
+
+        console.log(ArrayValue);
 
         return ArrayValue
             
