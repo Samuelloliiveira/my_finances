@@ -335,13 +335,7 @@ const EditValues = {
             const indexValue = index
 
             //Passando as informações para o local Storage
-            Storage.set({
-                "description": descriptionEdit,
-                "amount": amountEdit,
-                "date": dateEdit,
-            })
-
-            // App.reload()
+            Storage.set([{"description":descriptionEdit,"amount":amountEdit,"date":dateEdit}])
 
             Modal.openCloseModalEdition()
         }
