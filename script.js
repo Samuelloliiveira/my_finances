@@ -295,7 +295,7 @@ const EditValues = {
 
             <div class="input-group actions">
                 <a onclick="Modal.openCloseModalEdition()" href="#" class="button cancel">Cancelar</a>
-                <button onclick="EditValues.checkRegistration()">Salvar</button>
+                <button onclick="EditValues.UpdateLocalStorage()">Salvar</button>
             </div>
         `
 
@@ -303,7 +303,7 @@ const EditValues = {
 
     },
 
-    checkRegistration() {
+    UpdateLocalStorage(index) { //O INDEX TEM QUE VIM DE ALGUM LUGAR
 
         const descriptionEdit = document.querySelector('input#descriptionEdit').value
         const amountEdit = document.querySelector('input#amountEdit').value
@@ -329,13 +329,18 @@ const EditValues = {
                 }
 
         }else {
-            EditValues.UpdateLocalStorage()
+
+            
+
+            //AQUI É ONDE EU VOU SALVAR OU CHAMAR UMA FUNÇÃO DE SALVAR
+
+            console.log(descriptionEdit)
+            console.log(amountEdit)
+            console.log(dateEdit)
+            console.log(index);
+
+            Modal.openCloseModalEdition()
         }
-    },
-
-    UpdateLocalStorage(index) {
-
-        console.log(index);
 
         //buscar o local no localStorage que deseja salvar através do array
         //Substituir os dados do
@@ -353,8 +358,6 @@ const EditValues = {
         const date = EditValues.reversingDateFormatting(storedData.date)
 
         EditValues.innerHTMLEdition(description, amount, date)
-
-        EditValues.UpdateLocalStorage(index)
 
     },
 
