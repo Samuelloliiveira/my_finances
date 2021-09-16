@@ -342,9 +342,21 @@ const EditValues = {
         //buscar o local no localStorage que deseja salvar através do array
         //Atualizar tabela
         
-        //Passando as informações para o local Storage
-        Storage.set([{"description":descriptionEdit,"amount":amountEdit,"date":validDate}])
+        const updatedTransaction = {
+            "description":descriptionEdit,
+            "amount":amountEdit,
+            "date":validDate
+        }
+
+        // Array contendo todos os dados da tabela
+        NewArray = Storage.get()
         
+        //Tocando dados do index indicado
+        NewArray[index] = updatedTransaction 
+
+        //Passando o novo array com os dados alterados para o local storage
+        Storage.set(NewArray) 
+
         Modal.openCloseModalEdition()
 
     },
@@ -386,6 +398,7 @@ const App = {
 App.init()
 
 //OS DADOS DESSA APLICAÇÃO ESTÁO SALVOS EM LOCAL STORAGE
+//TEM OUTRO ERRO NO VALOR DO TOTAL
 
 
         //VAI PRECISAR FORMATAR AMOUNT NO RETORNO PORQUE ESTÁ DANDO O VALOR ERRADO
