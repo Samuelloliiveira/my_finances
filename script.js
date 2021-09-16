@@ -330,13 +330,18 @@ const EditValues = {
 
         }else {
 
-    
             //AQUI É ONDE EU VOU SALVAR OU CHAMAR UMA FUNÇÃO DE SALVAR
 
-            console.log(descriptionEdit)
-            console.log(amountEdit)
-            console.log(dateEdit)
-            console.log(index);
+            const indexValue = index
+
+            //Passando as informações para o local Storage
+            Storage.set({
+                "description": descriptionEdit,
+                "amount": amountEdit,
+                "date": dateEdit,
+            })
+
+            // App.reload()
 
             Modal.openCloseModalEdition()
         }
