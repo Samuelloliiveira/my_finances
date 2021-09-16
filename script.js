@@ -330,7 +330,7 @@ const EditValues = {
 
         }else {
 
-            //AQUI É ONDE EU VOU SALVAR OU CHAMAR UMA FUNÇÃO DE SALVAR
+            //atualizando os dados no localstorage
 
             const indexValue = index
 
@@ -338,11 +338,13 @@ const EditValues = {
             Storage.set([{"description":descriptionEdit,"amount":amountEdit,"date":dateEdit}])
 
             Modal.openCloseModalEdition()
+
         }
 
         //buscar o local no localStorage que deseja salvar através do array
-        //Substituir os dados do
         //Atualizar tabela
+        //RESOLVER NA QUESTÃO DA DATA E DO VALOR
+
     },
 
     getValueStorage(index) { //passando o index como o número do array que deseja pegar do storage
