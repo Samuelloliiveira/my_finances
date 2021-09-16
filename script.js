@@ -269,7 +269,7 @@ const EditValues = {
         return `${previousDate[2]}-${previousDate[1]}-${previousDate[0]}`
     },
 
-    innerHTMLEdition(description, amount, date) {
+    innerHTMLEdition(description, amount, date, index) {
         //colocando novos valores dentro do Modal
         const addNewModal = document.querySelector('#addNewModal')
         addNewModal.innerHTML = `
@@ -295,7 +295,7 @@ const EditValues = {
 
             <div class="input-group actions">
                 <a onclick="Modal.openCloseModalEdition()" href="#" class="button cancel">Cancelar</a>
-                <button onclick="EditValues.UpdateLocalStorage()">Salvar</button>
+                <button onclick="EditValues.UpdateLocalStorage(${index})">Salvar</button>
             </div>
         `
 
@@ -303,7 +303,7 @@ const EditValues = {
 
     },
 
-    UpdateLocalStorage(index) { //O INDEX TEM QUE VIM DE ALGUM LUGAR
+    UpdateLocalStorage(index) {
 
         const descriptionEdit = document.querySelector('input#descriptionEdit').value
         const amountEdit = document.querySelector('input#amountEdit').value
@@ -330,8 +330,7 @@ const EditValues = {
 
         }else {
 
-            
-
+    
             //AQUI É ONDE EU VOU SALVAR OU CHAMAR UMA FUNÇÃO DE SALVAR
 
             console.log(descriptionEdit)
@@ -357,7 +356,7 @@ const EditValues = {
         const amount = storedData.amount
         const date = EditValues.reversingDateFormatting(storedData.date)
 
-        EditValues.innerHTMLEdition(description, amount, date)
+        EditValues.innerHTMLEdition(description, amount, date, index)
 
     },
 
