@@ -295,7 +295,7 @@ const EditValues = {
 
             <div class="input-group actions">
                 <a onclick="Modal.openCloseModalEdition()" href="#" class="button cancel">Cancelar</a>
-                <button onclick="EditValues.UpdateLocalStorage(${index})">Salvar</button>
+                <button onclick="EditValues.CheckNewData(${index})">Salvar</button>
             </div>
         `
 
@@ -303,11 +303,14 @@ const EditValues = {
 
     },
 
-    UpdateLocalStorage(index) {
+    CheckNewData(index) {
 
         const descriptionEdit = document.querySelector('input#descriptionEdit').value
         const amountEdit = document.querySelector('input#amountEdit').value
         const dateEdit = document.querySelector('input#dateEdit').value
+
+        //Passando a data para ser formatada e recebendo de volta
+        const validDate = Utils.formatDate(dateEdit)
 
         //verificando se os campos estão vazios
         if (
@@ -329,21 +332,20 @@ const EditValues = {
                 }
 
         }else {
-
-            //atualizando os dados no localstorage
-
-            const indexValue = index
-
-            //Passando as informações para o local Storage
-            Storage.set([{"description":descriptionEdit,"amount":amountEdit,"date":dateEdit}])
-
-            Modal.openCloseModalEdition()
-
+            EditValues.UpdateLocalStorage(descriptionEdit, amountEdit, validDate, index )
         }
+
+    },
+
+    UpdateLocalStorage(descriptionEdit, amountEdit, validDate, index) {
 
         //buscar o local no localStorage que deseja salvar através do array
         //Atualizar tabela
-        //RESOLVER NA QUESTÃO DA DATA E DO VALOR
+        
+        //Passando as informações para o local Storage
+        Storage.set([{"description":descriptionEdit,"amount":amountEdit,"date":validDate}])
+        
+        Modal.openCloseModalEdition()
 
     },
 
