@@ -309,8 +309,9 @@ const EditValues = {
         const amountEdit = document.querySelector('input#amountEdit').value
         const dateEdit = document.querySelector('input#dateEdit').value
 
-        //Passando a data para ser formatada e recebendo de volta
+        //Passando a data e o amount para ser formatado
         const validDate = Utils.formatDate(dateEdit)
+        const validAmount = Utils.formatAmount(amountEdit)
 
         //verificando se os campos estão vazios
         if (
@@ -332,19 +333,17 @@ const EditValues = {
                 }
 
         }else {
-            EditValues.UpdateLocalStorage(descriptionEdit, amountEdit, validDate, index )
+            EditValues.UpdateLocalStorage(descriptionEdit, validAmount, validDate, index )
         }
 
     },
 
-    UpdateLocalStorage(descriptionEdit, amountEdit, validDate, index) {
+    UpdateLocalStorage(descriptionEdit, validAmount, validDate, index) {
 
-        //buscar o local no localStorage que deseja salvar através do array
-        //Atualizar tabela
-        
+        //criando objeto com os novos dados
         const updatedTransaction = {
             "description":descriptionEdit,
-            "amount":amountEdit,
+            "amount":validAmount,
             "date":validDate
         }
 
@@ -359,6 +358,8 @@ const EditValues = {
 
         Modal.openCloseModalEdition()
 
+        location.reload()
+
     },
 
     getValueStorage(index) { //passando o index como o número do array que deseja pegar do storage
@@ -368,7 +369,7 @@ const EditValues = {
 
         //pegando os dados do objeto
         const description = storedData.description
-        const amount = storedData.amount
+        const amount = storedData.amount / 100 
         const date = EditValues.reversingDateFormatting(storedData.date)
 
         EditValues.innerHTMLEdition(description, amount, date, index)
@@ -398,7 +399,3 @@ const App = {
 App.init()
 
 //OS DADOS DESSA APLICAÇÃO ESTÁO SALVOS EM LOCAL STORAGE
-//TEM OUTRO ERRO NO VALOR DO TOTAL
-
-
-        //VAI PRECISAR FORMATAR AMOUNT NO RETORNO PORQUE ESTÁ DANDO O VALOR ERRADO
