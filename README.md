@@ -10,5 +10,9 @@ Aqui eu aprendi propriedades do CSS, medidas flexíveis, box-model.
 Em Javascript manipulamos a DOM(Document Object Model), metodos, funções, e manipulação de Array.
 Aprendemos "truques" para tratamento de data e dinheiro.
 
+##
+
+Como adicional no sistema eu fiz a função de atualizar transação
+
 ![index_imagem](https://github.com/Samuelloliiveira/my_finances/blob/main/img/home.jpg?raw=true) 
 ![index_imagem](https://github.com/Samuelloliiveira/my_finances/blob/main/img/modal.jpg?raw=true) 
